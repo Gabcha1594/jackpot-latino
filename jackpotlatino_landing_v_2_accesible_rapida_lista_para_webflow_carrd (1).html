@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JACKPOT LATINO — Bono 150% hasta $1000 | Slots con sonidos</title>
+  <meta name="description" content="Bono 150% hasta $1000. Slots con símbolos realistas y sonidos. Juego responsable +18." />
+  <meta name="theme-color" content="#ff7a00" />
+  <link rel="preload" href="assets/bg.jpg" as="image" />
+  <style>
+    :root{
+      --brand:#ff7a00; --brand-2:#ffa652; --bg:#0b0b0f; --text:#f6f6f6; --muted:#bdbdbd;
+      --glow: 0 0 .6rem var(--brand), 0 0 1.2rem var(--brand), 0 0 2.4rem var(--brand-2);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Arial, sans-serif;
+      color:var(--text);
+      background: var(--bg) url('assets/bg.jpg') center/cover no-repeat fixed;
+      overflow-x:hidden;
+    }
+    body::before{content:""; position:fixed; inset:0; background:radial-gradient(70% 60% at 50% 40%, rgba(0,0,0,.2), rgba(0,0,0,.85)); pointer-events:none; z-index:-1;}
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1100px; margin:0 auto; padding: clamp(16px, 2vw, 28px)}
+
+    header{position:sticky; top:0; backdrop-filter:saturate(1.2) blur(6px); background:rgba(11,11,15,.5); border-bottom:1px solid rgba(255,138,26,.25); z-index:10}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
+    .brand .dot{width:12px; height:12px; border-radius:50%; background:var(--brand); box-shadow:var(--glow)}
+
+    .hero{padding-top: min(8vh,60px); padding-bottom: 8vh; display:grid; gap:28px; grid-template-columns: 1.2fr .8fr; align-items:center}
+    @media (max-width: 900px){ .hero{ grid-template-columns: 1fr; padding-top: 24px } }
+
+    .badge{display:inline-flex; align-items:center; gap:.5rem; font-weight:700; letter-spacing:.06em; color:#160b04;
+      background:linear-gradient(90deg, #ffd8b0, #ff9b3d); padding:.35rem .7rem; border-radius:999px; box-shadow: var(--glow);
+      text-transform:uppercase; font-size:.78rem}
+    .headline{font-size: clamp(2.2rem, 4vw + 1rem, 4.2rem); line-height:1.05; font-weight:900; text-shadow: var(--glow); margin:.2rem 0 .6rem}
+    .sub{ font-size: clamp(1.1rem, 1.2vw + .6rem, 1.6rem); color:#ffe6d1; opacity:.95; margin-bottom:1rem}
+
+    .cta-row{display:flex; gap:14px; flex-wrap:wrap; align-items:center}
+    .btn{appearance:none; border:0; cursor:pointer; padding:.95rem 1.4rem; font-weight:900; font-size:1.05rem; letter-spacing:.04em;
+      color:#1a0b02; border-radius:14px; background:linear-gradient(180deg, #ffc184, #ff8a1a);
+      box-shadow: 0 .4rem 1.2rem rgba(0,0,0,.5), inset 0 .1rem .4rem rgba(255,255,255,.25);
+      transition: transform .1s ease, filter .2s ease; text-transform:uppercase}
+    .btn:hover{ filter:brightness(1.05); transform: translateY(-1px) scale(1.02) }
+    .btn:focus-visible{ outline: 3px solid #ffd094; outline-offset:2px }
+    .btn.secondary{background:linear-gradient(180deg, #ffe9d1, #ffbd79)}
+
+    .legal{ font-size:.8rem; color:var(--muted); max-width:60ch }
+
+    .steps{ margin-top: 28px; display:grid; grid-template-columns: repeat(3,1fr); gap:14px }
+    @media (max-width: 800px){ .steps{grid-template-columns: 1fr } }
+    .card{ background: linear-gradient(180deg, rgba(255,138,26,.08), rgba(0,0,0,.6));
+      border:1px solid rgba(255,138,26,.28); border-radius:var(--radius); padding:16px 18px; backdrop-filter: blur(6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35)}
+    .card .n{ font-weight:900; font-size:1.2rem; color:#ffd7b1; letter-spacing:.04em }
+    .card h3{ margin:.2rem 0; font-size:1.4rem }
+
+    /* SLOT */
+    .slot-wrap{ justify-self:center; width:min(420px, 92%); padding:12px; border-radius:24px;
+      background: linear-gradient(180deg, rgba(255,138,26,.12), rgba(0,0,0,.7)); border:1px solid rgba(255,138,26,.35);
+      box-shadow: var(--glow); position:relative}
+    .slot-top{ position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:linear-gradient(90deg, #ffc999, #ff7a00, #ffc999);
+      color:#1a0b02; font-weight:900; letter-spacing:.1em; text-transform:uppercase; padding:.35rem .9rem; border-radius:999px; box-shadow: var(--glow); font-size:.9rem}
+    .slot{ position:relative; height: 230px; border-radius:14px; background:#111; border:2px solid #ff8a1a; overflow:hidden;
+      display:grid; grid-template-columns: repeat(3, 1fr)}
+    .reel{ position:relative; border-left:1px solid rgba(255,138,26,.3); border-right:1px solid rgba(255,138,26,.3);
+      overflow:hidden; display:flex; align-items:flex-start; justify-content:stretch}
+    .strip{ position:absolute; left:0; top:0; right:0; display:flex; flex-direction:column; align-items:center; gap:8px; padding:10px 0}
+
+    /* Íconos SVG realistas pero simples (sin sprite externo) */
+    .symbol{ width:100%; height:70px; display:flex; align-items:center; justify-content:center }
+    .symbol svg{ width:90%; height:90%; display:block }
+
+    .slot-controls{ margin-top:12px; display:flex; align-items:center; justify-content:center; gap:12px}
+    .lever{ width:64px; height:64px; border-radius:50%; border:0; cursor:pointer; background: radial-gradient(circle at 30% 30%, #ffe0c5, #ff8a1a); box-shadow: var(--glow); transition: transform .08s ease }
+    .lever:active{ transform: translateY(2px) scale(.98) }
+
+    /* JACKPOT POPUP */
+    .jackpot{ position:fixed; inset:0; display:none; place-items:center; z-index:99; background: rgba(0,0,0,.7) }
+    .jackpot.show{ display:grid }
+    .jackpot-box{ text-align:center; padding:28px 24px; border-radius:22px;
+      background: radial-gradient(60% 60% at 50% 40%, rgba(255,138,26,.2), rgba(0,0,0,.8));
+      border: 2px solid #ff8a1a; box-shadow: var(--glow); animation: pop .55s ease }
+    @keyframes pop{ from{ transform: scale(.8); opacity:0 } to{ transform:scale(1); opacity:1 } }
+    .jackpot h2{ margin:.2rem 0; font-size: clamp(2rem, 5vw, 3.6rem); color:#fff; text-shadow: var(--glow) }
+    .jackpot .amount{ font-size: clamp(1.4rem, 3.2vw, 2.2rem); color:#ffd7b1; margin-bottom:12px }
+
+    footer{ margin-top:40px; padding:24px 0; color:#b9b9b9; font-size:.85rem }
+    .logos{ opacity:.8; display:flex; align-items:center; gap:16px; flex-wrap:wrap }
+    .logo-pill{ border:1px solid rgba(255,138,26,.25); padding:6px 10px; border-radius:999px }
+
+    @media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important} }
+    .visually-hidden{position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav" role="navigation" aria-label="Principal">
+      <div class="brand" aria-label="JACKPOT LATINO">
+        <span class="dot" aria-hidden="true"></span>
+        <span>JACKPOT LATINO</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn secondary" href="#registro" data-track="header_cta">Regístrate</a>
+        <button class="btn" id="muteToggle" aria-pressed="false" aria-label="Silenciar sonidos">🔊 Sonido</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" aria-labelledby="h-hero">
+      <div>
+        <span class="badge" aria-label="Oferta exclusiva">Oferta exclusiva</span>
+        <h1 id="h-hero" class="headline">Bono hasta <span style="color:#ffd094;">$1000</span><br><span style="font-size:.8em">150% de bienvenida</span></h1>
+        <p class="sub">Regístrate, confirma tu correo y juega ahora mismo en <strong>JACKPOT LATINO</strong>.</p>
+        <div class="cta-row">
+          <a class="btn" href="#registro" data-track="hero_cta">Regístrate</a>
+          <span class="legal">Aplican T&C. Juego responsable +18.</span>
+        </div>
+
+        <div class="steps" aria-label="Cómo empezar">
+          <div class="card"><div class="n" aria-hidden="true">1</div><h3>Registra tu cuenta</h3><p>Rellena el formulario y crea tu usuario.</p></div>
+          <div class="card"><div class="n" aria-hidden="true">2</div><h3>Confirma tu correo</h3><p>Activa tu bono de bienvenida.</p></div>
+          <div class="card"><div class="n" aria-hidden="true">3</div><h3>Juega ahora</h3><p>Deposita y participa por el <strong>JACKPOT</strong>.</p></div>
+        </div>
+      </div>
+
+      <div class="slot-wrap" aria-labelledby="h-slot">
+        <div class="slot-top" id="h-slot">SLOT — JACKPOT LATINO</div>
+        <div class="slot" id="slot" role="region" aria-label="Máquina tragamonedas">
+          <div class="reel"><div class="strip"></div></div>
+          <div class="reel"><div class="strip"></div></div>
+          <div class="reel"><div class="strip"></div></div>
+        </div>
+        <div class="slot-controls">
+          <button class="lever" id="lever" title="Tirar palanca" aria-label="Tirar palanca para girar"></button>
+          <button class="btn" id="spinBtn">Girar</button>
+          <span id="status" class="visually-hidden" aria-live="polite"></span>
+        </div>
+      </div>
+    </section>
+
+    <section id="registro" aria-labelledby="h-registro" style="margin-top:32px">
+      <h2 id="h-registro" class="headline" style="font-size: clamp(1.6rem,3vw,2.4rem); text-shadow:none">Crea tu cuenta</h2>
+      <form action="/signup" method="post" style="display:grid; gap:12px; max-width:520px">
+        <label>Correo electrónico<input name="email" type="email" required autocomplete="email" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,138,26,.35); background:#121212; color:#fff"/></label>
+        <label>Contraseña<input name="password" type="password" minlength="8" required autocomplete="new-password" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,138,26,.35); background:#121212; color:#fff"/></label>
+        <label>País
+          <select name="country" required style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,138,26,.35); background:#121212; color:#fff">
+            <option value="">Selecciona…</option>
+            <option>Argentina</option><option>Chile</option><option>Colombia</option><option>México</option><option>Perú</option><option>España</option><option>Italia</option><option>Alemania</option>
+          </select>
+        </label>
+        <label style="display:flex; align-items:center; gap:8px"><input type="checkbox" required /> Acepto Términos y Política de Privacidad</label>
+        <button class="btn" type="submit" data-track="form_submit">Crear cuenta</button>
+        <p class="legal">Al continuar confirmas que tienes 18+ y aceptas recibir comunicación sobre tu cuenta. Puedes darte de baja cuando quieras.</p>
+      </form>
+    </section>
+
+    <section aria-labelledby="h-faq" style="margin-top:40px">
+      <h2 id="h-faq" class="headline" style="font-size: clamp(1.4rem,2.8vw,2rem); text-shadow:none">Preguntas frecuentes</h2>
+      <details class="card"><summary><strong>¿Cómo activo el bono 150%?</strong></summary><p>Regístrate, confirma tu correo y realiza tu primer depósito. El bono se acredita automáticamente. Revisa T&C para rollover y límites.</p></details>
+      <details class="card"><summary><strong>¿Qué métodos de pago aceptan?</strong></summary><p>Cripto (BTC, ETH, USDT, TRX, LTC, XRP) y tarjetas en países habilitados.</p></details>
+      <details class="card"><summary><strong>¿Puedo silenciar sonidos?</strong></summary><p>Sí. Usa el botón “Sonido” arriba o el atajo <kbd>M</kbd>.</p></details>
+    </section>
+  </main>
+
+  <footer class="container" role="contentinfo">
+    <div class="logos" aria-label="Métodos disponibles">
+      <span class="logo-pill">BTC</span>
+      <span class="logo-pill">ETH</span>
+      <span class="logo-pill">USDT</span>
+      <span class="logo-pill">TRX</span>
+      <span class="logo-pill">LTC</span>
+      <span class="logo-pill">XRP</span>
+    </div>
+    <p style="margin-top:10px; max-width:75ch;">Juega de forma responsable. Página de demostración.</p>
+  </footer>
+
+  <div class="jackpot" id="jackpot" role="dialog" aria-modal="true" aria-labelledby="h-jackpot">
+    <div class="jackpot-box">
+      <h2 id="h-jackpot">🎉 ¡JACKPOT!</h2>
+      <div class="amount" id="jackpotAmount">¡Has ganado el GRAN PREMIO! 🔥</div>
+      <a href="#registro" class="btn" data-track="jackpot_cta">Reclamar bono</a>
+      <div><button class="btn close" id="closeJackpot">Cerrar</button></div>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="sndLever" src="assets/sounds/lever.wav" preload="auto"></audio>
+  <audio id="sndSpin" src="assets/sounds/spin.wav" preload="auto" loop></audio>
+  <audio id="sndJackpot" src="assets/sounds/jackpot.wav" preload="auto"></audio>
+
+<script defer>
+(() => {
+  const tiles = [0,1,2,3,4,5,6,7,8];
+  const sevenIndices = [1,2,4,5,8];
+  const reels = Array.from(document.querySelectorAll('.reel'));
+  const symbolHeight = 78;
+  const minSpins = 16;
+  const jackpotChance = 0.07;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const sndLever = document.getElementById('sndLever');
+  const sndSpin  = document.getElementById('sndSpin');
+  const sndJack  = document.getElementById('sndJackpot');
+  const statusEl = document.getElementById('status');
+  const muteBtn  = document.getElementById('muteToggle');
+
+  let muted = false;
+  const setMuted = (val) => {
+    muted = val; [sndLever,sndSpin,sndJack].forEach(a => a.muted = muted);
+    muteBtn.setAttribute('aria-pressed', String(!muted));
+    muteBtn.textContent = muted ? '🔇 Silenciado' : '🔊 Sonido';
+  };
+  muteBtn?.addEventListener('click', () => setMuted(!muted));
+  document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='m') setMuted(!muted) });
+
+  function makeStrip(){
+    const arr = [];
+    for (let i=0;i<24;i++) arr.push(tiles[Math.floor(Math.random()*tiles.length)]);
+    return arr;
+  }
+
+  function svgFor(i){
+    // 9 símbolos: Cereza, Limón, 7, Campana, Estrella, Diamante, Trébol, BAR, Corona
+    const gloss = `<linearGradient id='g1' x1='0' y1='0' x2='0' y2='1'>
+                    <stop offset='0' stop-color='rgba(255,255,255,0.9)'/>
+                    <stop offset='0.4' stop-color='rgba(255,255,255,0.35)'/>
+                    <stop offset='1' stop-color='rgba(255,255,255,0)'/>
+                  </linearGradient>`;
+    const card = (inner,bg='#101015')=>`<svg viewBox='0 0 100 70' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>
+      <defs>${gloss}</defs>
+      <rect width='100' height='70' rx='12' fill='${bg}'/>
+      ${inner}
+    </svg>`;
+
+    const svgs = [
+      // 0: Cereza
+      card(`
+        <circle cx='42' cy='42' r='11' fill='#d7263d' stroke='#7a0c18' stroke-width='2'/>
+        <circle cx='56' cy='42' r='11' fill='#d7263d' stroke='#7a0c18' stroke-width='2'/>
+        <path d='M49 30 C50 22, 62 20, 68 26' stroke='#2b8a3e' stroke-width='4' fill='none'/>
+        <circle cx='68' cy='26' r='4' fill='#82c91e'/>
+        <ellipse cx='40' cy='38' rx='4' ry='2' fill='rgba(255,255,255,.6)'/>
+        <ellipse cx='54' cy='38' rx='4' ry='2' fill='rgba(255,255,255,.6)'/>
+      `),
+      // 1: Limón
+      card(`
+        <ellipse cx='50' cy='38' rx='25' ry='16' fill='#ffd43b' stroke='#b08900' stroke-width='2'/>
+        <ellipse cx='36' cy='38' rx='6' ry='4' fill='rgba(255,255,255,.45)'/>
+        <ellipse cx='64' cy='38' rx='6' ry='4' fill='rgba(255,255,255,.2)'/>
+        <circle cx='28' cy='28' r='4' fill='#82c91e'/>
+        <rect x='26' y='26' width='6' height='2' fill='#2b8a3e' rx='1'/>
+      `),
+      // 2: Siete
+      card(`
+        <defs>
+          <linearGradient id='r7' x1='0' y1='0' x2='1' y2='1'>
+            <stop offset='0' stop-color='#ff6b6b'/>
+            <stop offset='1' stop-color='#fa5252'/>
+          </linearGradient>
+        </defs>
+        <path d='M28 22 H74 L46 56 H36 Z' fill='url(#r7)' stroke='#870000' stroke-width='2'/>
+        <rect x='30' y='18' width='42' height='6' rx='3' fill='rgba(255,255,255,.6)'/>
+      `),
+      // 3: Campana
+      card(`
+        <path d='M30 46 C30 30, 70 30, 70 46 Z' fill='#ffb703' stroke='#b08900' stroke-width='2'/>
+        <rect x='38' y='26' width='24' height='8' rx='4' fill='#ffd166' stroke='#b08900' stroke-width='1.5'/>
+        <circle cx='50' cy='49' r='4' fill='#ffd166' stroke='#b08900' stroke-width='1.5'/>
+        <ellipse cx='50' cy='36' rx='16' ry='6' fill='rgba(255,255,255,.25)'/>
+      `),
+      // 4: Estrella
+      card(`
+        <polygon points='50,16 58,34 76,34 61,45 66,60 50,50 34,60 39,45 24,34 42,34' fill='#ffe066' stroke='#b08900' stroke-width='2'/>
+        <circle cx='50' cy='38' r='10' fill='rgba(255,255,255,.15)'/>
+      `),
+      // 5: Diamante
+      card(`
+        <polygon points='50,16 70,34 50,58 30,34' fill='#4dabf7' stroke='#1c7ed6' stroke-width='2'/>
+        <polygon points='50,16 60,34 50,34 40,34' fill='#74c0fc'/>
+        <polygon points='40,34 50,50 60,34' fill='#a5d8ff' opacity='.85'/>
+      `),
+      // 6: Trébol
+      card(`
+        <circle cx='42' cy='32' r='10' fill='#51cf66' stroke='#2b8a3e' stroke-width='2'/>
+        <circle cx='58' cy='32' r='10' fill='#51cf66' stroke='#2b8a3e' stroke-width='2'/>
+        <circle cx='50' cy='42' r='10' fill='#40c057' stroke='#2b8a3e' stroke-width='2'/>
+        <rect x='48' y='42' width='4' height='12' fill='#2f9e44'/>
+      `),
+      // 7: BAR
+      card(`
+        <rect x='20' y='24' width='60' height='22' rx='7' fill='#0e0e0e' stroke='#ffffff' stroke-width='2'/>
+        <rect x='22' y='26' width='56' height='18' rx='6' fill='#ffffff'/>
+        <text x='50' y='40' text-anchor='middle' font-size='14' font-weight='900' fill='#000' font-family='system-ui,Segoe UI,Roboto'>BAR</text>
+        <rect x='24' y='28' width='52' height='3' rx='2' fill='rgba(0,0,0,.08)'/>
+      `),
+      // 8: Corona
+      card(`
+        <polygon points='22,46 32,26 46,40 54,28 68,42 78,26 78,46' fill='#fcc419' stroke='#b08900' stroke-width='2'/>
+        <rect x='22' y='46' width='56' height='6' fill='#fab005' stroke='#b08900' stroke-width='1.5'/>
+        <circle cx='32' cy='26' r='3' fill='#ffd43b'/>
+        <circle cx='54' cy='28' r='3' fill='#ffd43b'/>
+        <circle cx='78' cy='26' r='3' fill='#ffd43b'/>
+      `)
+    ];
+    return svgs[i % svgs.length];
+  }
+
+  // Inicializa con los SVG
+  reels.forEach((reel) => {
+    const strip = reel.querySelector('.strip');
+    strip.style.transition = 'none';
+    const seq = makeStrip();
+    strip.innerHTML = seq.map(t => `<div class="symbol">${svgFor(t)}</div>`).join('');
+  });
+
+  function spinTo(targetTiles){
+    reels.forEach((reel, i) => {
+      const strip = reel.querySelector('.strip');
+      const steps = (prefersReduced ? 6 : minSpins) + i*4 + Math.floor(Math.random()*6);
+      const total = steps + targetTiles[i];
+      const dist = -(total * symbolHeight);
+      strip.style.transition = `transform ${0.8 + i*0.25}s cubic-bezier(.1,.7,.1,1)`;
+      requestAnimationFrame(() => { strip.style.transform = `translateY(${dist}px)`; });
+      strip.addEventListener('transitionend', function tidy(){
+        strip.removeEventListener('transitionend', tidy);
+        const norm = -((targetTiles[i]) * symbolHeight);
+        strip.style.transition = 'none';
+        strip.style.transform = `translateY(${norm}px)`;
+      });
+    });
+  }
+
+  function randomTargets(forceJackpot=false){
+    if (forceJackpot){
+      const variant = sevenIndices[Math.floor(Math.random()*sevenIndices.length)];
+      return [variant, variant, variant];
+    }
+    return [0,1,2].map(()=> tiles[Math.floor(Math.random()*tiles.length)]);
+  }
+
+  function isJackpot(targets){
+    const allEqual = targets.every(t => t === targets[0]);
+    return allEqual && sevenIndices.includes(targets[0]);
+  }
+
+  const jackpotEl = document.getElementById('jackpot');
+  const spinBtn = document.getElementById('spinBtn');
+  const lever = document.getElementById('lever');
+  const closeJackpot = document.getElementById('closeJackpot');
+  const jackpotAmount = document.getElementById('jackpotAmount');
+
+  function confetti(){
+    if (prefersReduced) return;
+    const N = 100;
+    for (let i=0;i<N;i++){
+      const d = document.createElement('div');
+      const s = Math.random()*6+4;
+      d.style.position='fixed'; d.style.left= Math.random()*100 +'vw'; d.style.top='-10px';
+      d.style.width = s+'px'; d.style.height = s+'px'; d.style.background = `hsl(${Math.random()*40+20} 100% 60%)`;
+      d.style.boxShadow = '0 0 8px rgba(255,255,255,.6)';
+      d.style.zIndex='100';
+      d.style.transform = `rotate(${Math.random()*360}deg)`;
+      d.style.borderRadius = Math.random()>.5? '2px':'50%';
+      d.setAttribute('aria-hidden','true');
+      document.body.appendChild(d);
+      const fall = s*40 + Math.random()*4000 + 3000;
+      d.animate([{transform:`translateY(0) rotate(0)`},{transform:`translateY(105vh) rotate(${Math.random()>0.5?360:-360}deg)`}],{duration: fall, easing:'ease-in'}).finished.then(()=>d.remove());
+    }
+  }
+
+  let spinning = false;
+  function announce(msg){ statusEl.textContent = msg }
+
+  function spin(){
+    if (spinning) return;
+    spinning = true; spinBtn.disabled = true; lever.disabled = true;
+
+    try { sndLever.currentTime = 0; if(!muted) sndLever.play(); } catch(e){}
+    try { sndSpin.currentTime = 0; if(!muted) sndSpin.play(); } catch(e){}
+
+    const forceJack = Math.random() < jackpotChance;
+    const targets = randomTargets(forceJack);
+    spinTo(targets);
+
+    const settleTime = prefersReduced ? 900 : 1800;
+    setTimeout(()=>{
+      spinning = false; spinBtn.disabled = false; lever.disabled = false;
+      try { sndSpin.pause(); sndSpin.currentTime = 0; } catch(e){}
+      if (isJackpot(targets)){
+        jackpotEl.classList.add('show');
+        jackpotAmount.textContent = '¡Has ganado el GRAN PREMIO! 🔥';
+        confetti();
+        try { if(!muted) { sndJack.currentTime = 0; sndJack.play(); } } catch(e){}
+        announce('¡Jackpot!');
+      } else {
+        announce('Giro finalizado. Intenta de nuevo.');
+      }
+    }, settleTime);
+  }
+
+  spinBtn.addEventListener('click', spin);
+  lever.addEventListener('click', spin);
+  document.addEventListener('keydown', (e)=>{ if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); spin(); } });
+  closeJackpot.addEventListener('click', ()=> jackpotEl.classList.remove('show'));
+})();
+</script>
+</body>
+</html>
